@@ -16,4 +16,6 @@ public interface IProductoService {
     void deleteProducto(Long codigo_producto);
 
     double checkearStock(Long codigo_producto);
+
+    List<Producto> getProductosBajoStock();
 }

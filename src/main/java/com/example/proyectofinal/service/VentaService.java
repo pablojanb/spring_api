@@ -1,6 +1,8 @@
 package com.example.proyectofinal.service;
 
 import com.example.proyectofinal.dto.VentaDTO;
+import com.example.proyectofinal.dto.VentaMayorDTO;
+import com.example.proyectofinal.dto.VentaPorDiaDTO;
 import com.example.proyectofinal.model.Producto;
 import com.example.proyectofinal.model.Venta;
 import com.example.proyectofinal.repository.IVentaRepository;
@@ -50,6 +52,11 @@ public class VentaService implements IVentaService {
         venta.setTotal(this.calcularTotalVenta(listaDisponibles));
         iVentaRepository.save(venta);
 
+        return getVentaDTO(venta, listaDisponibles, listaNoDisponibles);
+    }
+
+    @Override
+    public VentaDTO getVentaDTO(Venta venta, List<Producto> listaDisponibles, List<Producto> listaNoDisponibles) {
         VentaDTO ventaDTO = new VentaDTO();
         ventaDTO.setFecha_venta(venta.getFecha_venta());
         ventaDTO.setTotal(venta.getTotal());
@@ -64,7 +71,6 @@ public class VentaService implements IVentaService {
         ventaDTO.setListaProductosDisponibles(listaDtoDisponibles);
         ventaDTO.setListaProductosNoDisponibles(listaDtoNoDisponibles);
         return ventaDTO;
-
     }
 
     @Override
@@ -90,5 +96,52 @@ public class VentaService implements IVentaService {
             total += prod.getCosto();
         }
         return total;
+    }
+
+    @Override
+    public List<Producto> getProductosVenta(Long codigo_venta){
+        Venta venta = this.getVenta(codigo_venta);
+        return venta.getListaProductos();
+    }
+
+    @Override
+    public VentaPorDiaDTO getVentaPorDia(LocalDate fecha_venta) {
+        List<Venta> listaVentas = this.getVentas();
+        List<Venta> listaVentasDelDia = new ArrayList<>();
+        for (Venta venta : listaVentas) {
+            if(venta.getFecha_venta().equals(fecha_venta)){
+                listaVentasDelDia.add(venta);
+            }
+        }
+        VentaPorDiaDTO ventaPorDiaDTO = new VentaPorDiaDTO();
+        ventaPorDiaDTO.setCantidad_ventas(listaVentasDelDia.size());
+
+        double total = 0;
+
+        for (Venta venta : listaVentasDelDia) {
+            total += venta.getTotal();
+        }
+
+        ventaPorDiaDTO.setTotal_ventas(total);
+        return ventaPorDiaDTO;
+    }
+
+    @Override
+    public VentaMayorDTO getVentaMayor() {
+        List<Venta> listaVentas = this.getVentas();
+        Venta ventaMayorMonto = new Venta();
+        ventaMayorMonto.setTotal(0.0);
+        for (Venta venta : listaVentas) {
+            if (venta.getTotal() > ventaMayorMonto.getTotal()) {
+                ventaMayorMonto = venta;
+            }
+        }
+        VentaMayorDTO ventaMayorDTO = new VentaMayorDTO();
+        ventaMayorDTO.setCodigo_venta(ventaMayorMonto.getCodigo_venta());
+        ventaMayorDTO.setTotal(ventaMayorMonto.getTotal());
+        ventaMayorDTO.setCant_productos(ventaMayorMonto.getListaProductos().size());
+        ventaMayorDTO.setNombre(ventaMayorMonto.getUnCliente().getNombre());
+        ventaMayorDTO.setApellido(ventaMayorMonto.getUnCliente().getApellido());
+        return ventaMayorDTO;
     }
 }

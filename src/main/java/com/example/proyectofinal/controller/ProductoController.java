@@ -40,4 +40,9 @@ public class ProductoController {
         iProductoService.deleteProducto(codigo_producto);
         return "Producto eliminado correctamente";
     }
+
+    @GetMapping("/productos/falta_stock")
+    public List<Producto> getProductosBajoStock(){
+        return iProductoService.getProductosBajoStock();
+    }
 }
