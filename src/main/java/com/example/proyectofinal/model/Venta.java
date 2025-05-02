@@ -19,9 +19,9 @@ public class Venta {
     private Long codigo_venta;
     private LocalDate fecha_venta;
     private Double total;
-    @OneToMany
+    @ManyToMany
     private List<Producto> listaProductos;
-    @OneToOne
+    @ManyToOne
     private Cliente unCliente;
 
 }
