@@ -12,7 +12,7 @@ El mismo fue desarrollado en el marco del curso Desarrollo de APIs con Spring Bo
 
 ## Funcionalidades
 
-- **Crud de clientes:** Crear, actualizar, editar y eliminar clientes en el sistema.
+- **Crud de clientes:** Crear, obtener, actualizar y eliminar clientes en el sistema.
 - **Endpoints:**
   - Crear cliente: `POST /clientes/crear`
   - Obtener clientes: `GET /clientes`
@@ -20,7 +20,7 @@ El mismo fue desarrollado en el marco del curso Desarrollo de APIs con Spring Bo
   - Editar cliente: `PUT /clientes/editar/{id_cliente}`
   - Eliminar cliente: `DELETE /clientes/eliminar/{id_cliente}`
 
-- **Crud de productos:** Crear, actualizar, editar y eliminar productos en el sistema.
+- **Crud de productos:** Crear, obtener, actualizar y eliminar productos en el sistema.
 - **Endpoints:**
   - Crear producto: `POST /productos/crear`
   - Obtener productos: `GET /productos`
@@ -30,7 +30,7 @@ El mismo fue desarrollado en el marco del curso Desarrollo de APIs con Spring Bo
 - **Extra:**
   - Obtener productos con bajo stock: `GET /productos/falta_stock`
 
-- **Crud de ventas:** Crear, actualizar, editar y eliminar ventas en el sistema.
+- **Crud de ventas:** Crear, obtener, actualizar y eliminar ventas en el sistema.
 - **Endpoints:**
   - Crear venta: `POST /ventas/crear`
   - Obtener ventas: `GET /ventas`

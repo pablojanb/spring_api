@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  app_vet:
+    build: .
+    mem_limit: 512m
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:mysql://bazar:3306/bazar_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DB_USER: root
+      DB_PASS: 1234
+    restart: always
+    depends_on:
+      bazar:
+          condition: service_healthy
+  bazar:
+    image: mysql:9.1.0
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: bazar_db
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
